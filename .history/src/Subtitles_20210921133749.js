@@ -17,7 +17,7 @@ const Subtitles = ({
   currentTime,
   hasSeeked, 
   containerStyle = {},
-  textStyle = {}
+textStyle = {}
 }) => { 
   const [subtitles, setSubtitles] = useState(null)
 

@@ -16,9 +16,7 @@ const Subtitles = ({
   selectedsubtitle,
   currentTime,
   hasSeeked, 
-  containerStyle = {},
-  textStyle = {}
-}) => { 
+}) => {
   const [subtitles, setSubtitles] = useState(null)
 
   const [text, setText] = useState('')
@@ -28,6 +26,7 @@ const Subtitles = ({
       selectedsubtitle.file.split('.')[
         selectedsubtitle.file.split('.').length - 1
       ]
+ 
 
     Axios.get(selectedsubtitle.file).then((response) => {
       const openedSubtitle = response.data 
@@ -113,32 +112,32 @@ const Subtitles = ({
   useEffect(() => {
     setText('')
   }, [hasSeeked])
- 
 
   return (
     <View
       style={{
-        ...containerStyle,
-        marginBottom: '5%'
+        position: 'absolute', 
+        left: 0,
+        right: 0,
       }}
     >
       {text.length > 0 ? (
         <Text
           style={{
-            fontSize: 25,
-            color: 'white',
+            marginHorizontal: '10%',
+            fontSize: 55,
+            color: colors.white,
             textAlign: 'center',
-            alignSelf: 'center',
             padding: 25,
+            alignSelf: 'center',
             backgroundColor: 'rgba(0,0,0,.6)',
 
             textShadowColor: '#000',
             textShadowOffset: { width: 2, height: 2 },
             textShadowRadius: 2,
-            ...textStyle
           }}
         >
-          {text} 
+          {text}
         </Text>
       ) : null}
     </View>

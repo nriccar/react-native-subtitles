@@ -18,7 +18,7 @@ const Subtitles = ({
   hasSeeked, 
   containerStyle = {},
   textStyle = {}
-}) => { 
+}) => {
   const [subtitles, setSubtitles] = useState(null)
 
   const [text, setText] = useState('')
@@ -113,13 +113,11 @@ const Subtitles = ({
   useEffect(() => {
     setText('')
   }, [hasSeeked])
- 
 
   return (
     <View
       style={{
-        ...containerStyle,
-        marginBottom: '5%'
+        ...containerStyle
       }}
     >
       {text.length > 0 ? (
