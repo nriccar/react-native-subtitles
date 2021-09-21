@@ -15,7 +15,8 @@ const timeToSeconds = (seconds) => {
 const Subtitles = ({
   selectedsubtitle,
   currentTime,
-  hasSeeked, 
+  hasSeeked,
+  controlsOpacity,
 }) => {
   const [subtitles, setSubtitles] = useState(null)
 
@@ -26,10 +27,12 @@ const Subtitles = ({
       selectedsubtitle.file.split('.')[
         selectedsubtitle.file.split('.').length - 1
       ]
- 
+
+    // console.log(subtitleType)
 
     Axios.get(selectedsubtitle.file).then((response) => {
-      const openedSubtitle = response.data 
+      const openedSubtitle = response.data
+      // console.log(openedSubtitle)
 
       if (subtitleType === 'srt') {
         var parser = new srtParser2()
@@ -84,7 +87,8 @@ const Subtitles = ({
         }
       }
 
-      if (subtitles[0]) { 
+      if (subtitles[0]) {
+        // console.log(subtitles[0])
 
         let currentSubtitleStart = subtitles[0].start
         let currentSubtitleEnd = subtitles[0].end
@@ -116,7 +120,8 @@ const Subtitles = ({
   return (
     <View
       style={{
-        position: 'absolute', 
+        position: 'absolute',
+        bottom: controlsOpacity === 1 ? '5%' : '15%',
         left: 0,
         right: 0,
       }}
@@ -130,7 +135,7 @@ const Subtitles = ({
             textAlign: 'center',
             padding: 25,
             alignSelf: 'center',
-            backgroundColor: 'rgba(0,0,0,.6)',
+            backgroundColor: colors.blackTranslucent,
 
             textShadowColor: '#000',
             textShadowOffset: { width: 2, height: 2 },
