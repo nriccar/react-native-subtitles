@@ -1,0 +1,13 @@
+{
+    "name": "react-native-subtitles",
+    "version": "1.0.0",
+    "description": "Add subtitles to any video given a current timestamp",
+    "repository": "nriccar/react-native-subtitles",
+    "main": "index.js",
+    "keywords": [
+      "react-native",
+      "subtitles",
+      "react-native-video",
+      "nriccar"
+    ]
+} 
