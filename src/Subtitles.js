@@ -1,57 +1,56 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import React, {useEffect, useState} from 'react';
+import {View, Text} from 'react-native';
 
-import Axios from 'axios'
+import Axios from 'axios';
 
-import vttToJson from 'vtt-to-json'
-var { default: srtParser2 } = require('srt-parser-2')
- 
+import vttToJson from 'vtt-to-json';
+var {default: srtParser2} = require('srt-parser-2');
 
-const timeToSeconds = (seconds) => {
-  var time = seconds.split(':')
-  return +time[0] * 60 * 60 + +time[1] * 60 + +time[2]
-}
+const timeToSeconds = seconds => {
+  var time = seconds.split(':');
+  return +time[0] * 60 * 60 + +time[1] * 60 + +time[2];
+};
 
 const Subtitles = ({
   selectedsubtitle,
   currentTime,
-  hasSeeked, 
+  hasSeeked,
   containerStyle = {},
-  textStyle = {}
-}) => { 
-  const [subtitles, setSubtitles] = useState(null)
+  textStyle = {},
+}) => {
+  const [subtitles, setSubtitles] = useState(null);
 
-  const [text, setText] = useState('')
+  const [text, setText] = useState('');
 
   useEffect(() => {
     const subtitleType =
       selectedsubtitle.file.split('.')[
         selectedsubtitle.file.split('.').length - 1
-      ]
+      ];
 
-    Axios.get(selectedsubtitle.file).then((response) => {
-      const openedSubtitle = response.data 
+    Axios.get(selectedsubtitle.file).then(response => {
+      const openedSubtitle = response.data;
 
       if (subtitleType === 'srt') {
-        var parser = new srtParser2()
-        const parsedSubtitle = parser.fromSrt(openedSubtitle)
+        var parser = new srtParser2();
+        const parsedSubtitle = parser.fromSrt(openedSubtitle);
 
-        let result = []
+        let result = [];
 
-        parsedSubtitle.map((subtitle) => {
+        parsedSubtitle.map(subtitle => {
           result.push({
             start: timeToSeconds(subtitle.startTime.split(',')[0]),
             end: timeToSeconds(subtitle.endTime.split(',')[0]),
             part: subtitle.text,
-          })
-        })
+          });
+        });
 
-        setSubtitles(result)
+        setSubtitles(result);
       } else if (subtitleType === 'vtt') {
-        vttToJson(openedSubtitle).then((parsedSubtitle) => {
-          let result = []
+        vttToJson(openedSubtitle).then(parsedSubtitle => {
+          let result = [];
 
-          parsedSubtitle.map((subtitle) => {
+          parsedSubtitle.map(subtitle => {
             // For some reason this library adds the index of the subtitle at the end of the part, so we cut it
 
             result.push({
@@ -60,66 +59,65 @@ const Subtitles = ({
               part: subtitle.part.slice(
                 0,
                 subtitle.part.length -
-                  subtitle.part.split(' ')[subtitle.part.split(' ').length - 1]
-                    .length,
+                  subtitle.part.split(' ')[
+                    subtitle.part.split(' ').length - 1
+                  ].length,
               ),
-            })
-          })
+            });
+          });
 
-          setSubtitles(result)
-        })
+          setSubtitles(result);
+        });
       }
-    })
-  }, [selectedsubtitle, hasSeeked])
+    });
+  }, [selectedsubtitle, hasSeeked]);
 
   useEffect(() => {
     if (subtitles) {
-      let videoTime = Math.floor(currentTime)
+      let videoTime = Math.floor(currentTime);
 
       for (let index = 0; index < subtitles.length; index++) {
-        const subtitle = subtitles[index]
+        const subtitle = subtitles[index];
         if (videoTime >= subtitle.end) {
-          let subtitlesCopy = subtitles
-          subtitlesCopy.shift()
-          setSubtitles(subtitlesCopy)
+          let subtitlesCopy = subtitles;
+          subtitlesCopy.shift();
+          setSubtitles(subtitlesCopy);
         }
       }
 
-      if (subtitles[0]) { 
-
-        let currentSubtitleStart = subtitles[0].start
-        let currentSubtitleEnd = subtitles[0].end
-        let currentSubtitleText = subtitles[0].part
+      if (subtitles[0]) {
+        let currentSubtitleStart = subtitles[0].start;
+        let currentSubtitleEnd = subtitles[0].end;
+        let currentSubtitleText = subtitles[0].part;
 
         if (currentSubtitleStart + 4 < currentSubtitleEnd) {
-          currentSubtitleEnd = currentSubtitleStart + 4
+          currentSubtitleEnd = currentSubtitleStart + 4;
         }
 
         if (videoTime >= currentSubtitleStart) {
-          setText(currentSubtitleText)
+          setText(currentSubtitleText);
         }
 
         if (videoTime >= currentSubtitleEnd) {
-          setText('')
+          setText('');
 
-          let subtitlesCopy = subtitles
-          subtitlesCopy.shift()
-          setSubtitles(subtitlesCopy)
+          let subtitlesCopy = subtitles;
+          subtitlesCopy.shift();
+          setSubtitles(subtitlesCopy);
         }
       }
     }
-  }, [currentTime, subtitles])
+  }, [currentTime, subtitles]);
 
   useEffect(() => {
-    setText('')
-  }, [hasSeeked])
- 
+    setText('');
+  }, [hasSeeked]);
 
   return (
     <View
       style={{
         ...containerStyle,
-        marginBottom: '5%'
+        marginBottom: '5%',
       }}
     >
       {text.length > 0 ? (
@@ -133,16 +131,16 @@ const Subtitles = ({
             backgroundColor: 'rgba(0,0,0,.6)',
 
             textShadowColor: '#000',
-            textShadowOffset: { width: 2, height: 2 },
+            textShadowOffset: {width: 2, height: 2},
             textShadowRadius: 2,
-            ...textStyle
+            ...textStyle,
           }}
         >
-          {text} 
+          {text}
         </Text>
       ) : null}
     </View>
-  )
-}
+  );
+};
 
-export default Subtitles
+export default Subtitles;
