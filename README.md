@@ -28,7 +28,7 @@ import Subtitles from 'react-native-subtitles'
     }} 
 />
 ```
-
+xxx
 
 ### Props
 * [currentTime](#currentTime) 
