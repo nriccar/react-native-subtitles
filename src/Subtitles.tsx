@@ -122,7 +122,6 @@ const Subtitles = ({
     <View
       style={{
         ...containerStyle,
-        marginBottom: '5%',
       }}
     >
       {subtitles && subtitleIndex >= 0 ? (
