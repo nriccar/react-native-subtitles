@@ -127,9 +127,7 @@ const Subtitles = ({
       {subtitles && subtitleIndex >= 0 ? (
         <Text
           style={{
-            textAlign: 'center',
-            alignSelf: 'center',
-            padding: 25,
+            padding: 5,
             ...textStyle,
           }}
         >
