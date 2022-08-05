@@ -1,0 +1,28 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react-hooks"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "eslint-config-prettier"
+  ],
+  "rules": {
+    "strict": ["error", "never"],
+    "no-undef": "warn",
+    "no-unused-vars": "warn",
+    "no-dupe-keys": "warn",
+    "react/no-unknown-property": "warn",
+    "react/prop-types": "off",
+    "react/jsx-key": "warn"
+  },
+  "env": {
+    "browser": true
+  }
+}

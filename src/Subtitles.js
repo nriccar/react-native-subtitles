@@ -5,9 +5,8 @@ import Axios from 'axios'
 
 import vttToJson from 'vtt-to-json'
 var { default: srtParser2 } = require('srt-parser-2')
- 
 
-const timeToSeconds = (seconds) => {
+const timeToSeconds = seconds => {
   var time = seconds.split(':')
   return +time[0] * 60 * 60 + +time[1] * 60 + +time[2]
 }
@@ -16,20 +15,19 @@ const Subtitles = ({
   selectedsubtitle,
   currentTime,
   containerStyle = {},
-  textStyle = {}
-}) => { 
+  textStyle = {},
+}) => {
   const [subtitles, setSubtitles] = useState(null)
 
   const [text, setText] = useState('')
 
   useEffect(() => {
-    const subtitleType =
-      selectedsubtitle.file.split('.')[
-        selectedsubtitle.file.split('.').length - 1
-      ]
+    const subtitleType = selectedsubtitle.file.split('.')[
+      selectedsubtitle.file.split('.').length - 1
+    ]
 
-    Axios.get(selectedsubtitle.file).then((response) => {
-      const openedSubtitle = response.data 
+    Axios.get(selectedsubtitle.file).then(response => {
+      const openedSubtitle = response.data
 
       if (subtitleType === 'srt') {
         var parser = new srtParser2()
@@ -37,7 +35,7 @@ const Subtitles = ({
 
         let result = []
 
-        parsedSubtitle.map((subtitle) => {
+        parsedSubtitle.map(subtitle => {
           result.push({
             start: timeToSeconds(subtitle.startTime.split(',')[0]),
             end: timeToSeconds(subtitle.endTime.split(',')[0]),
@@ -47,10 +45,10 @@ const Subtitles = ({
 
         setSubtitles(result)
       } else if (subtitleType === 'vtt') {
-        vttToJson(openedSubtitle).then((parsedSubtitle) => {
+        vttToJson(openedSubtitle).then(parsedSubtitle => {
           let result = []
 
-          parsedSubtitle.map((subtitle) => {
+          parsedSubtitle.map(subtitle => {
             // For some reason this library adds the index of the subtitle at the end of the part, so we cut it
 
             result.push({
@@ -73,29 +71,31 @@ const Subtitles = ({
 
   useEffect(() => {
     if (subtitles) {
-      let start = 0;
-      let end = subtitles.length - 1;
+      let start = 0
+      let end = subtitles.length - 1
+
       while (start <= end) {
-        let mid = Math.floor((start + end) / 2);
-        let subtitle = subtitles[mid];
+        let mid = Math.floor((start + end) / 2)
+        let subtitle = subtitles[mid]
+
         if (currentTime >= subtitle.start && currentTime <= subtitle.end) {
-          return setText(subtitle.part.trim());
+          return setText(subtitle.part.trim())
         } else if (currentTime < subtitle.start) {
-          end = mid - 1;
+          end = mid - 1
         } else {
-          start = mid + 1;
-         }
-       }
-      return setText('');
+          start = mid + 1
+        }
+      }
+
+      return setText('')
     }
   }, [currentTime, subtitles])
- 
 
   return (
     <View
       style={{
         ...containerStyle,
-        marginBottom: '5%'
+        marginBottom: '5%',
       }}
     >
       {text.length > 0 ? (
@@ -111,10 +111,10 @@ const Subtitles = ({
             textShadowColor: '#000',
             textShadowOffset: { width: 2, height: 2 },
             textShadowRadius: 2,
-            ...textStyle
+            ...textStyle,
           }}
         >
-          {text} 
+          {text}
         </Text>
       ) : null}
     </View>
