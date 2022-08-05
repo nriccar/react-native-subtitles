@@ -15,7 +15,6 @@ const timeToSeconds = (seconds) => {
 const Subtitles = ({
   selectedsubtitle,
   currentTime,
-  hasSeeked, 
   containerStyle = {},
   textStyle = {}
 }) => { 
@@ -70,49 +69,26 @@ const Subtitles = ({
         })
       }
     })
-  }, [selectedsubtitle, hasSeeked])
+  }, [selectedsubtitle])
 
   useEffect(() => {
     if (subtitles) {
-      let videoTime = Math.floor(currentTime)
-
-      for (let index = 0; index < subtitles.length; index++) {
-        const subtitle = subtitles[index]
-        if (videoTime >= subtitle.end) {
-          let subtitlesCopy = subtitles
-          subtitlesCopy.shift()
-          setSubtitles(subtitlesCopy)
-        }
-      }
-
-      if (subtitles[0]) { 
-
-        let currentSubtitleStart = subtitles[0].start
-        let currentSubtitleEnd = subtitles[0].end
-        let currentSubtitleText = subtitles[0].part
-
-        if (currentSubtitleStart + 4 < currentSubtitleEnd) {
-          currentSubtitleEnd = currentSubtitleStart + 4
-        }
-
-        if (videoTime >= currentSubtitleStart) {
-          setText(currentSubtitleText)
-        }
-
-        if (videoTime >= currentSubtitleEnd) {
-          setText('')
-
-          let subtitlesCopy = subtitles
-          subtitlesCopy.shift()
-          setSubtitles(subtitlesCopy)
-        }
-      }
+      let start = 0;
+      let end = subtitles.length - 1;
+      while (start <= end) {
+        let mid = Math.floor((start + end) / 2);
+        let subtitle = subtitles[mid];
+        if (currentTime >= subtitle.start && currentTime <= subtitle.end) {
+          return setText(subtitle.part.trim());
+        } else if (currentTime < subtitle.start) {
+          end = mid - 1;
+        } else {
+          start = mid + 1;
+         }
+       }
+      return setText('');
     }
   }, [currentTime, subtitles])
-
-  useEffect(() => {
-    setText('')
-  }, [hasSeeked])
  
 
   return (
