@@ -44,7 +44,7 @@ const Subtitles: React.FC<SubtitlesProps> = ({
   const [subtitles, setSubtitles] = useState<Subtitle[]>([])
 
   const parseSubtitles = async (): Promise<void> => {
-    const parsedSubtitles = await subtitleParser.parse(selectedsubtitle.file)
+    const parsedSubtitles = await subtitleParser(selectedsubtitle.file)
     setSubtitles(parsedSubtitles)
   }
 
@@ -64,6 +64,7 @@ const Subtitles: React.FC<SubtitlesProps> = ({
 
       while (start <= end) {
         const mid: number = Math.floor((start + end) / 2)
+
         const subtitle: Subtitle = subtitles[mid] || {
           start: 0,
           end: 0,
@@ -71,7 +72,8 @@ const Subtitles: React.FC<SubtitlesProps> = ({
         }
 
         if (currentTime >= subtitle.start && currentTime <= subtitle.end) {
-          return setText(subtitle.part.trim())
+          setText(subtitle.part.trim())
+          return
         } else if (currentTime < subtitle.start) {
           end = mid - 1
         } else {
@@ -90,8 +92,9 @@ const Subtitles: React.FC<SubtitlesProps> = ({
         marginBottom: '5%',
       }}
     >
-      {text.length ? (
+      {text ? (
         <Text
+          testID="react-native-subtitles-text"
           style={{
             fontSize: 25,
             color: 'white',
