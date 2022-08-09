@@ -1,2 +1,2 @@
-import Subtitles from "./src/Subtitles";
+import Subtitles from './lib/Subtitles'
 export default Subtitles

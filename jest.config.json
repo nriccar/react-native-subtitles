@@ -1,0 +1,10 @@
+{
+  "preset": "react-native",
+  "modulePathIgnorePatterns": [
+    "<rootDir>/example/node_modules",
+    "<rootDir>/.history/",
+    "<rootDir>/dist/"
+  ],
+  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+}

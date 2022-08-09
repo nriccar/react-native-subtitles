@@ -1,6 +1,4 @@
-# react-native-subtitles
-
-[![NPM Version](https://img.shields.io/npm/v/react-native-subtitles.svg?style=flat)]()
+# [React Native Subtitles](https://www.npmjs.com/package/react-native-subtitles) &middot; ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 Add subtitles to any video given a current timestamp.
 
@@ -25,7 +23,8 @@ const Example = () => {
     <Subtitles
       {...{ currentTime }}
       selectedsubtitle={{
-        file: 'https://bitdash-a.akamaihd.net/content/sintel/subtitles/subtitles_en.vtt',
+        file:
+          'https://bitdash-a.akamaihd.net/content/sintel/subtitles/subtitles_en.vtt',
       }}
     />
   )
@@ -61,5 +60,5 @@ PRs are welcome!
 
 ## To-do
 
-- Add Typescript
+- Refactor to support `styled-components`
 - Add Tests
