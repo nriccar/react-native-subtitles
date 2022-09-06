@@ -1,5 +1,6 @@
 import React, {ReactElement, useEffect, useState} from 'react';
-import {View, Text, ViewStyle, TextStyle} from 'react-native';
+import {View, Text, ViewStyle, TextStyle, StyleSheet} from 'react-native';
+import {sortByKey} from 'Doceo/App/Utils';
 
 import Axios from 'axios';
 
@@ -30,6 +31,13 @@ const Subtitles = ({
   containerStyle = {},
   textStyle = {},
 }: Props): ReactElement => {
+  const styles = StyleSheet.create({
+    textStyle: {
+      padding: 5,
+      ...textStyle,
+    },
+  });
+
   const [subtitles, setSubtitles] = useState<Subtitle[]>(null);
 
   //const [text, setText] = useState<string>('');
@@ -59,15 +67,18 @@ const Subtitles = ({
         });
 
         // NOTE: sort by start timing
-        result.sort((a, b) => {
-          if (a.start > b.start) {
-            return 1;
-          }
-          if (a.start < b.start) {
-            return 1;
-          }
-          return 0;
-        });
+
+        sortByKey(result, 'start', true);
+
+        // result.sort((a, b) => {
+        // if (a.start > b.start) {
+        //     return 1;
+        // }
+        // if (a.start < b.start) {
+        //     return 1;
+        // }
+        // return 0;
+        // });
 
         setSubtitles(result);
       } else if (subtitleType === 'vtt') {
@@ -91,15 +102,19 @@ const Subtitles = ({
           });
 
           // NOTE: sort by start timing
-          result.sort((a, b) => {
-            if (a.start > b.start) {
-              return 1;
-            }
-            if (a.start < b.start) {
-              return 1;
-            }
-            return 0;
-          });
+          sortByKey(result, 'start', true);
+
+          //
+          // result.sort((a, b) => {
+          // if (a.start > b.start) {
+          //     return 1;
+          // }
+          // if (a.start < b.start) {
+          //     return 1;
+          // }
+          // return 0;
+          // });
+          //
 
           setSubtitles(result);
         });
@@ -125,12 +140,7 @@ const Subtitles = ({
       }}
     >
       {subtitles && subtitleIndex >= 0 ? (
-        <Text
-          style={{
-            padding: 5,
-            ...textStyle,
-          }}
-        >
+        <Text style={styles.textStyle}>
           {subtitles[subtitleIndex].part}
         </Text>
       ) : null}
