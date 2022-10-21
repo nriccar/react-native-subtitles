@@ -23,8 +23,7 @@ const Example = () => {
     <Subtitles
       {...{ currentTime }}
       selectedsubtitle={{
-        file:
-          'https://bitdash-a.akamaihd.net/content/sintel/subtitles/subtitles_en.vtt',
+        file: 'https://bitdash-a.akamaihd.net/content/sintel/subtitles/subtitles_en.vtt',
       }}
     />
   )
@@ -57,8 +56,3 @@ The style for the text
 ## Credits
 
 PRs are welcome!
-
-## To-do
-
-- Refactor to support `styled-components`
-- Add Tests
