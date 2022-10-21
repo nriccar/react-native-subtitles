@@ -45,21 +45,17 @@ test('renders subtitles according to currentTime prop successfully', async () =>
   >
   subtitleParserMock.mockResolvedValueOnce(testSubtitle)
 
-  const { rerender, queryByTestId, getByTestId } = render(
+  const { rerender, queryByTestId, findByTestId, getByTestId } = render(
     <Subtitles
       currentTime={0}
       selectedsubtitle={{ file: selectedSubtitleTest.vtt }}
     />,
   )
 
-  expect(subtitleParserMock).toHaveBeenCalledWith(selectedSubtitleTest.vtt)
+  await act(() => {})
 
-  await waitFor(() =>
-    expect(
-      queryByTestId('react-native-subtitles-text'),
-    ).not.toBeInTheDocument(),
-  )
   expect(subtitleParserMock).toHaveBeenCalledTimes(1)
+  expect(subtitleParserMock).toHaveBeenCalledWith(selectedSubtitleTest.vtt)
   expect(getByTestId('react-native-subtitles-text').props.children).toMatch(
     testSubtitle[0].part,
   )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, ViewStyle, TextStyle } from 'react-native'
 
 import subtitleParser from './utils/subtitle-parser'
 
@@ -15,8 +15,8 @@ export interface SubtitlesProps {
     file: string
   }
   currentTime: number
-  containerStyle?: React.StyleHTMLAttributes<HTMLDivElement>
-  textStyle?: React.StyleHTMLAttributes<HTMLParagraphElement>
+  containerStyle?: ViewStyle
+  textStyle?: TextStyle
 }
 
 /**
@@ -86,12 +86,7 @@ const Subtitles: React.FC<SubtitlesProps> = ({
   }, [currentTime, subtitles])
 
   return (
-    <View
-      style={{
-        ...containerStyle,
-        marginBottom: '5%',
-      }}
-    >
+    <View style={containerStyle}>
       {text ? (
         <Text
           testID="react-native-subtitles-text"
